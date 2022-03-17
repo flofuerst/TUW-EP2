@@ -33,92 +33,78 @@ public class Simulation {
     // The main simulation method using instances of other classes.
 
 
-//    public static void main(String[] args) {
-//
-//        //TODO: change implementation of this method according to 'Aufgabenblatt1.md'.
-//
-//        // simulation
-//        CodeDraw cd = new CodeDraw();
-//        Body[] bodies = new Body[NUMBER_OF_BODIES];
-//        Vector3[] forceOnBody = new Vector3[bodies.length];
-//
-//        Random random = new Random(2022);
-//
-//        for (int i = 0; i < bodies.length; i++) {
-//            bodies[i] = new Body();
-//            bodies[i].mass = Math.abs(random.nextGaussian()) * OVERALL_SYSTEM_MASS / bodies.length; // kg
-//            bodies[i].massCenter = new Vector3();
-//            bodies[i].currentMovement = new Vector3();
-//            bodies[i].massCenter.x = 0.2 * random.nextGaussian() * AU;
-//            bodies[i].massCenter.y = 0.2 * random.nextGaussian() * AU;
-//            bodies[i].massCenter.z = 0.2 * random.nextGaussian() * AU;
-//
-//            bodies[i].currentMovement.x = 0 + random.nextGaussian() * 5e3;
-//            bodies[i].currentMovement.y = 0 + random.nextGaussian() * 5e3;
-//            bodies[i].currentMovement.z = 0 + random.nextGaussian() * 5e3;
-//
-//        }
-//
-//        double seconds = 0;
-//
-//        // simulation loop
-//        while (true) {
-//            seconds++; // each iteration computes the movement of the celestial bodies within one second.
-//
-//            // merge bodies that have collided
-//            for (int i = 0; i < bodies.length; i++) {
-//                for (int j = i + 1; j < bodies.length; j++) {
-//                    if (distance(bodies[j].massCenter, bodies[i].massCenter) <
-//                            SpaceDraw.massToRadius(bodies[j].mass) + SpaceDraw.massToRadius(bodies[i].mass)) {
-//                        bodies[i] = merge(bodies[i], bodies[j]);
-//                        Body[] bodiesOneRemoved = new Body[bodies.length - 1];
-//                        for (int k = 0; k < bodiesOneRemoved.length; k++) {
-//                            bodiesOneRemoved[k] = bodies[k < j ? k : k + 1];
-//                        }
-//                        bodies = bodiesOneRemoved;
-//
-//                        // since the body index i changed size there might be new collisions
-//                        // at all positions of bodies, so start all over again
-//                        i = -1;
-//                        j = bodies.length;
-//                    }
-//                }
-//            }
-//
-//            // for each body (with index i): compute the total force exerted on it.
-//            for (int i = 0; i < bodies.length; i++) {
-//                forceOnBody[i] = new Vector3(); // begin with zero
-//                for (int j = 0; j < bodies.length; j++) {
-//                    if (i != j) {
-//                        Vector3 forceToAdd = gravitationalForce(bodies[i], bodies[j]);
-//                        forceOnBody[i] = plus(forceOnBody[i], forceToAdd);
-//                    }
-//                }
-//            }
-//            // now forceOnBody[i] holds the force vector exerted on body with index i.
-//
-//            // for each body (with index i): move it according to the total force exerted on it.
-//            for (int i = 0; i < bodies.length; i++) {
-//                move(bodies[i], forceOnBody[i]);
-//            }
-//
-//            // show all movements in the canvas only every hour (to speed up the simulation)
-//            if (seconds % (3600) == 0) {
-//                // clear old positions (exclude the following line if you want to draw orbits).
-//                cd.clear(Color.BLACK);
-//
-//                // draw new positions
-//                for (Body body : bodies) {
-//                    draw(cd, body);
-//                }
-//
-//                // show new positions
-//                cd.show();
-//            }
-//
-//        }
-//
-//    }
+    public static void main(String[] args) {
+        // simulation
+        CodeDraw cd = new CodeDraw();
+        Body[] bodies = new Body[NUMBER_OF_BODIES];
+        Vector3[] forceOnBody = new Vector3[bodies.length];
+
+        Random random = new Random(2022);
+
+        for (int i = 0; i < bodies.length; i++) {
+            bodies[i] = new Body(Math.abs(random.nextGaussian()) * OVERALL_SYSTEM_MASS / bodies.length, // kg
+                    new Vector3(0.2 * random.nextGaussian() * AU, 0.2 * random.nextGaussian() * AU, 0.2 * random.nextGaussian() * AU),
+                    new Vector3(0 + random.nextGaussian() * 5e3, 0 + random.nextGaussian() * 5e3, 0 + random.nextGaussian() * 5e3));
+
+        }
+
+        double seconds = 0;
+
+        // simulation loop
+        while (true) {
+            seconds++; // each iteration computes the movement of the celestial bodies within one second.
+
+            // merge bodies that have collided
+            for (int i = 0; i < bodies.length; i++) {
+                for (int j = i + 1; j < bodies.length; j++) {
+                    if (bodies[j].distanceTo(bodies[i]) < bodies[j].radius() + bodies[i].radius()) {
+                        bodies[i] = bodies[i].merge(bodies[j]);
+                        Body[] bodiesOneRemoved = new Body[bodies.length - 1];
+                        for (int k = 0; k < bodiesOneRemoved.length; k++) {
+                            bodiesOneRemoved[k] = bodies[k < j ? k : k + 1];
+                        }
+                        bodies = bodiesOneRemoved;
+
+                        // since the body index i changed size there might be new collisions
+                        // at all positions of bodies, so start all over again
+                        i = -1;
+                        j = bodies.length;
+                    }
+                }
+            }
+
+            // for each body (with index i): compute the total force exerted on it.
+            for (int i = 0; i < bodies.length; i++) {
+                forceOnBody[i] = new Vector3(); // begin with zero
+                for (int j = 0; j < bodies.length; j++) {
+                    if (i != j) {
+                        Vector3 forceToAdd = bodies[i].gravitationalForce(bodies[j]);
+                        forceOnBody[i] = forceOnBody[i].plus(forceToAdd);
+                    }
+                }
+            }
+            // now forceOnBody[i] holds the force vector exerted on body with index i.
+
+            // for each body (with index i): move it according to the total force exerted on it.
+            for (int i = 0; i < bodies.length; i++) {
+                bodies[i].move(forceOnBody[i]);
+            }
+
+            // show all movements in the canvas only every hour (to speed up the simulation)
+            if (seconds % (3600) == 0) {
+                // clear old positions (exclude the following line if you want to draw orbits).
+                cd.clear(Color.BLACK);
+
+                // draw new positions
+                for (Body body : bodies) {
+                    body.draw(cd);
+                }
+
+                // show new positions
+                cd.show();
+            }
+        }
+    }
     //TODO: remove static methods below.
 
     // Draws a body in the 'cd' canvas showing a projection onto the (x,y)-plane. The body's mass
@@ -169,7 +155,7 @@ public class Simulation {
     // of the returned body is the sum of the impulses of 'b1' and 'b2'.
 
 
-//    public static Body merge(Body b1, Body b2) {
+//    public Body merge(Body b1, Body b2) {
 //
 //        Body result = new Body();
 //        result.mass = b1.mass + b2.mass;
@@ -209,8 +195,8 @@ public class Simulation {
 //
 //        return Math.sqrt(dX * dX + dY * dY + dZ * dZ);
 //    }
-//
-//    // Returns v1+v2.
+
+    // Returns v1+v2.
 //    public static Vector3 plus(Vector3 v1, Vector3 v2) {
 //
 //        Vector3 result = new Vector3();
@@ -220,8 +206,8 @@ public class Simulation {
 //
 //        return result;
 //    }
-//
-//    // Returns v1-v2.
+
+    // Returns v1-v2.
 //    public static Vector3 minus(Vector3 v1, Vector3 v2) {
 //
 //        Vector3 result = new Vector3();
@@ -231,8 +217,8 @@ public class Simulation {
 //
 //        return result;
 //    }
-//
-//    // Returns v*d.
+
+    // Returns v*d.
 //    public static Vector3 times(Vector3 v, double d) {
 //
 //        Vector3 result = new Vector3();
@@ -242,15 +228,15 @@ public class Simulation {
 //
 //        return result;
 //    }
-//
-//    // Returns the norm of 'v'.
+
+    // Returns the norm of 'v'.
 //    public static double length(Vector3 v) {
 //
 //        return distance(v, new Vector3()); // distance to origin.
 //    }
-//
-//    // Normalizes the specified vector 'v': changes the length of the vector such that its length
-//    // becomes one. The direction and orientation of the vector is not affected.
+
+    // Normalizes the specified vector 'v': changes the length of the vector such that its length
+    // becomes one. The direction and orientation of the vector is not affected.
 //    public static void normalize(Vector3 v) {
 //
 //        double length = length(v);

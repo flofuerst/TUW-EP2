@@ -5,13 +5,15 @@ import java.awt.*;
 // This class represents celestial bodies like stars, planets, asteroids, etc..
 public class Body {
 
-    //TODO: change modifiers.
     private double mass;
     private Vector3 massCenter; // position of the mass center.
     private Vector3 currentMovement;
 
-    //TODO: define constructor.
-    public Body(double initMass, Vector3 initMassCenter, Vector3 initCurrentMovement){
+    public Body() {
+        new Body();
+    }
+
+    public Body(double initMass, Vector3 initMassCenter, Vector3 initCurrentMovement) {
         this.mass = initMass;
         this.massCenter = initMassCenter;
         this.currentMovement = initCurrentMovement;
@@ -20,8 +22,7 @@ public class Body {
     // Returns the distance between the mass centers of this body and the specified body 'b'.
     public double distanceTo(Body b) {
 
-        //TODO: implement method.
-        return 0;
+        return this.massCenter.distanceTo(b.massCenter);
     }
 
     // Returns a vector representing the gravitational force exerted by 'b' on this body.
@@ -30,9 +31,12 @@ public class Body {
     // and G being the gravitational constant.
     // Hint: see simulation loop in Simulation.java to find out how this is done.
     public Vector3 gravitationalForce(Body b) {
+        Vector3 direction = this.massCenter.minus(b.massCenter);
+        double distance = direction.length();
+        direction.normalize();
 
-        //TODO: implement method.
-        return null;
+        double force = Simulation.G * this.mass * b.mass / (distance * distance);
+        return direction.times(force);
     }
 
     // Moves this body to a new position, according to the specified force vector 'force' exerted
@@ -40,8 +44,14 @@ public class Body {
     // (Movement depends on the mass of this body, its current movement and the exerted force.)
     // Hint: see simulation loop in Simulation.java to find out how this is done.
     public void move(Vector3 force) {
+        Vector3 newPosition = this.currentMovement.plus(this.massCenter.plus(force.times(1 / this.mass)));
 
-        //TODO: implement method.
+        // new minus old position.
+        Vector3 newMovement = newPosition.minus(this.massCenter);
+
+        // update body state
+        this.massCenter = newPosition;
+        this.currentMovement = newMovement;
     }
 
     // Returns the approximate radius of this body.
@@ -49,16 +59,18 @@ public class Body {
     // where m and r measured in solar units.)
     public double radius() {
 
-        //TODO: implement method.
-        return 0d;
+        return SpaceDraw.massToRadius(this.mass);
     }
 
     // Returns a new body that is formed by the collision of this body and 'b'. The impulse
     // of the returned body is the sum of the impulses of 'this' and 'b'.
     public Body merge(Body b) {
 
-        //TODO: implement method.
-        return null;
+        Body result = new Body();
+        result.mass = this.mass + b.mass;
+        result.massCenter = ((this.massCenter.times(this.mass)).plus(b.massCenter.times(b.mass))).times(1 / result.mass);
+        result.currentMovement = ((this.currentMovement.times(this.mass)).plus(b.currentMovement.times(b.mass))).times(1.0 / result.mass);
+        return result;
     }
 
     // Draws the body to the specified canvas as a filled circle.
@@ -68,7 +80,8 @@ public class Body {
     // Hint: call the method 'drawAsFilledCircle' implemented in 'Vector3'.
     public void draw(CodeDraw cd) {
 
-        //TODO: implement method.
+        cd.setColor(SpaceDraw.massToColor(this.mass));
+        this.massCenter.drawAsFilledCircle(cd, SpaceDraw.massToRadius(this.mass));
     }
 
     // Returns a string with the information about this body including
@@ -76,8 +89,7 @@ public class Body {
     // "5.972E24 kg, position: [1.48E11,0.0,0.0] m, movement: [0.0,29290.0,0.0] m/s."
     public String toString() {
 
-        //TODO: implement method.
-        return "";
+        return this.mass + " kg, position: " + this.massCenter + " m, movement: " + this.currentMovement + " m/s.";
     }
 
 }
