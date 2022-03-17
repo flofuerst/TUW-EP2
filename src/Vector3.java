@@ -44,12 +44,7 @@ public class Vector3 {
     // Returns the sum of this vector and -1*v.
     public Vector3 minus(Vector3 v) {
 
-        Vector3 result = new Vector3();
-        result.x = this.x - v.x;
-        result.y = this.y - v.y;
-        result.z = this.z - v.z;
-
-        return result;
+        return plus(v.times(-1));
     }
 
     // Returns the Euclidean distance of this vector
