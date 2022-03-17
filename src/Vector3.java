@@ -43,7 +43,6 @@ public class Vector3 {
 
     // Returns the sum of this vector and -1*v.
     public Vector3 minus(Vector3 v) {
-
         return plus(v.times(-1));
     }
 
@@ -67,7 +66,6 @@ public class Vector3 {
     // Normalizes this vector: changes the length of this vector such that it becomes 1.
     // The direction and orientation of the vector is not affected.
     public void normalize() {
-
         double length = length();
         this.x /= length;
         this.y /= length;
