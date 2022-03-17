@@ -6,11 +6,16 @@ import java.awt.*;
 public class Vector3 {
 
     //TODO: change modifiers.
-    public double x;
-    public double y;
-    public double z;
+    private double x;
+    private double y;
+    private double z;
 
     //TODO: define constructor.
+    public Vector3(double initX, double initY, double initZ){
+        this.x = initX;
+        this.y = initY;
+        this.z = initZ;
+    }
 
     // Returns the sum of this vector and vector 'v'.
     public Vector3 plus(Vector3 v) {

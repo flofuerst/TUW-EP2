@@ -6,11 +6,16 @@ import java.awt.*;
 public class Body {
 
     //TODO: change modifiers.
-    public double mass;
-    public Vector3 massCenter; // position of the mass center.
-    public Vector3 currentMovement;
+    private double mass;
+    private Vector3 massCenter; // position of the mass center.
+    private Vector3 currentMovement;
 
     //TODO: define constructor.
+    public Body(double initMass, Vector3 initMassCenter, Vector3 initCurrentMovement){
+        this.mass = initMass;
+        this.massCenter = initMassCenter;
+        this.currentMovement = initCurrentMovement;
+    }
 
     // Returns the distance between the mass centers of this body and the specified body 'b'.
     public double distanceTo(Body b) {
