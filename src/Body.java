@@ -9,9 +9,6 @@ public class Body {
     private Vector3 massCenter; // position of the mass center.
     private Vector3 currentMovement;
 
-    public Body() {
-        new Body();
-    }
 
     public Body(double initMass, Vector3 initMassCenter, Vector3 initCurrentMovement) {
         this.mass = initMass;
@@ -31,7 +28,7 @@ public class Body {
     // and G being the gravitational constant.
     // Hint: see simulation loop in Simulation.java to find out how this is done.
     public Vector3 gravitationalForce(Body b) {
-        Vector3 direction = this.massCenter.minus(b.massCenter);
+        Vector3 direction = b.massCenter.minus(this.massCenter);
         double distance = direction.length();
         direction.normalize();
 
@@ -65,12 +62,10 @@ public class Body {
     // Returns a new body that is formed by the collision of this body and 'b'. The impulse
     // of the returned body is the sum of the impulses of 'this' and 'b'.
     public Body merge(Body b) {
-
-        Body result = new Body();
-        result.mass = this.mass + b.mass;
-        result.massCenter = ((this.massCenter.times(this.mass)).plus(b.massCenter.times(b.mass))).times(1 / result.mass);
-        result.currentMovement = ((this.currentMovement.times(this.mass)).plus(b.currentMovement.times(b.mass))).times(1.0 / result.mass);
-        return result;
+        double mass = this.mass + b.mass;
+        Vector3 massCenter = ((this.massCenter.times(this.mass)).plus(b.massCenter.times(b.mass))).times(1 / mass);
+        Vector3 currentMovement = ((this.currentMovement.times(this.mass)).plus(b.currentMovement.times(b.mass))).times(1.0 / mass);
+        return new Body(mass, massCenter, currentMovement);
     }
 
     // Draws the body to the specified canvas as a filled circle.

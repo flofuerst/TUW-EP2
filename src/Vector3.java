@@ -10,7 +10,7 @@ public class Vector3 {
     private double z;
 
     public Vector3() {
-        new Vector3(0.0,0.0,0.0);
+        new Vector3(0.0, 0.0, 0.0);
     }
 
     public Vector3(double initX, double initY, double initZ) {
