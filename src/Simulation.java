@@ -3,7 +3,21 @@ import codedraw.CodeDraw;
 import java.awt.*;
 import java.util.Random;
 
-// TODO: insert answers to questions (Zusatzfragen) in 'Aufgabenblatt1.md' as comment.
+/*
+    Antwort auf Zusatzfragen:
+    1.) Datenkapselung: Unter Datenkapselung versteht man das Zusammenfassen von Variablen und Methoden zu einem Objekt.
+    In der Klasse Vector3 wurden die Koordinaten und deren zugehörigen Methoden zu einer Klasse zusammengefasst
+
+    2.) Data Hiding: Bei Data Hiding existieren unterschiedliche Sichtbarkeiten von Methoden und Variablen.
+    Man versucht zwecks Wartbarkeit soviele Methoden und Variablen private zu machen, wie nur möglich (public nur
+    wo unbedingt nötig).
+    Bei der Klasse Vector3 sind die Daten jetzt private und auf sie wird jetzt nur mehr innerhalb der Klasse
+    zugegriffen bzw. werden diese nur mehr durch Objektmethoden verändert.
+
+    3.) Vor dem Punkt steht die Instanz einer Klasse. Falls es sich um statische Methoden(Klassenmethoden)
+     oder Attribute handelt, so steht vorm Punkt die Klasse selbst. Bei Objektmethoden steht vor dem Punkt nie
+     der Klassenname selbst, sondern ein Variablen- oder Methodenname, welcher grundsätzlich klein geschrieben wird.
+ */
 
 // Simulates the formation of a massive solar system.
 public class Simulation {
