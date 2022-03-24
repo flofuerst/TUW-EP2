@@ -6,7 +6,6 @@
 public class BodyQueue {
 
     private Body[] bq;
-    private BodyQueue bq_copy;
     private int size;
 
     // Initializes this queue with an initial capacity.
