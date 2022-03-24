@@ -16,6 +16,10 @@ public class Body {
         this.currentMovement = initCurrentMovement;
     }
 
+    public double mass(){
+        return this.mass;
+    }
+
     // Returns the distance between the mass centers of this body and the specified body 'b'.
     public double distanceTo(Body b) {
 
