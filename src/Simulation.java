@@ -50,18 +50,25 @@ public class Simulation {
     public static void main(String[] args) {
         // simulation
         CodeDraw cd = new CodeDraw();
-        Body[] bodies = new Body[NUMBER_OF_BODIES];
-        Vector3[] forceOnBody = new Vector3[bodies.length];
+//        Body[] bodies = new Body[NUMBER_OF_BODIES];
+        BodyQueue bodies = new BodyQueue(NUMBER_OF_BODIES);
+//        Vector3[] forceOnBody = new Vector3[bodies.length];
+        BodyForceMap forceOnBody = new BodyForceMap(NUMBER_OF_BODIES);
 
         Random random = new Random(2022);
-
-        for (int i = 0; i < bodies.length; i++) {
-            bodies[i] = new Body(Math.abs(random.nextGaussian()) * OVERALL_SYSTEM_MASS / bodies.length, // kg
+        for (int i = 0; i < NUMBER_OF_BODIES; i++) {
+            bodies.add(new Body(Math.abs(random.nextGaussian()) * OVERALL_SYSTEM_MASS / NUMBER_OF_BODIES, // kg
                     new Vector3(0.2 * random.nextGaussian() * AU, 0.2 * random.nextGaussian() * AU, 0.2 * random.nextGaussian() * AU),
-                    new Vector3(0 + random.nextGaussian() * 5e3, 0 + random.nextGaussian() * 5e3, 0 + random.nextGaussian() * 5e3));
-
+                    new Vector3(0 + random.nextGaussian() * 5e3, 0 + random.nextGaussian() * 5e3, 0 + random.nextGaussian() * 5e3)));
         }
+        /*
+        bodies.add(new Body(1.989e30, new Vector3(0, 0, 0), new Vector3(0, 0, 0)));
+        bodies.add(new Body(5.972e24, new Vector3(-1.394555e11, 5.103346e10, 0), new Vector3(-10308.53, -28169.38, 0)));
+        bodies.add(new Body(3.301e23, new Vector3(-5.439054e10, 9.394878e9, 0), new Vector3(-17117.83, -46297.48, -1925.57)));
+        bodies.add(new Body(4.86747e24, new Vector3(-1.707667e10, 1.066132e11, 2.450232e9), new Vector3(-34446.02, -5567.47, 2181.10)));
+        bodies.add(new Body(6.41712e23, new Vector3(-1.010178e11, -2.043939e11, -1.591727E9), new Vector3(20651.98, -10186.67, -2302.79)));
 
+         */
         double seconds = 0;
 
         // simulation loop
@@ -69,6 +76,7 @@ public class Simulation {
             seconds++; // each iteration computes the movement of the celestial bodies within one second.
 
             // merge bodies that have collided
+            /*
             for (int i = 0; i < bodies.length; i++) {
                 for (int j = i + 1; j < bodies.length; j++) {
                     if (bodies[j].distanceTo(bodies[i]) < bodies[j].radius() + bodies[i].radius()) {
@@ -86,34 +94,54 @@ public class Simulation {
                     }
                 }
             }
+            */
 
             // for each body (with index i): compute the total force exerted on it.
-            for (int i = 0; i < bodies.length; i++) {
-                forceOnBody[i] = new Vector3(); // begin with zero
-                for (int j = 0; j < bodies.length; j++) {
-                    if (i != j) {
-                        Vector3 forceToAdd = bodies[i].gravitationalForce(bodies[j]);
-                        forceOnBody[i] = forceOnBody[i].plus(forceToAdd);
-                    }
+            for (int i = 0; i < NUMBER_OF_BODIES; i++) {
+                Body chosenBody = bodies.poll();
+                for (int x = 0; x < NUMBER_OF_BODIES; x++) {
+                    Body otherBody = bodies.poll();
+                    Vector3 forceToAdd = chosenBody.gravitationalForce(otherBody);
+                    bodies.add(otherBody);
+                    Vector3 secondForce = forceOnBody.get(chosenBody) == null ?
+                            new Vector3() : forceOnBody.get(chosenBody);
+
+                    forceOnBody.put(chosenBody, forceToAdd.plus(secondForce));
                 }
+                bodies.add(chosenBody);
+//                for (int j = 0; j < bodies.size(); j++) {
+//                    if (i != j) {
+//                        Vector3 forceToAdd = bodies[i].gravitationalForce(bodies[j]);
+//                        forceOnBody[i] = forceOnBody[i].plus(forceToAdd);
+//                    }
+//                }
             }
+
             // now forceOnBody[i] holds the force vector exerted on body with index i.
 
             // for each body (with index i): move it according to the total force exerted on it.
-            for (int i = 0; i < bodies.length; i++) {
-                bodies[i].move(forceOnBody[i]);
+            for (int i = 0; i < NUMBER_OF_BODIES; i++) {
+                Body chosenBody = bodies.poll();
+                Vector3 bodyForce = forceOnBody.get(chosenBody) == null ?
+                        new Vector3() : forceOnBody.get(chosenBody);
+                chosenBody.move(bodyForce);
+                bodies.add(chosenBody);
             }
 
             // show all movements in the canvas only every hour (to speed up the simulation)
-            if (seconds % (3600) == 0) {
+            //changed speed up from 3600 to 36
+            if (seconds % (20) == 0) {
                 // clear old positions (exclude the following line if you want to draw orbits).
                 cd.clear(Color.BLACK);
 
                 // draw new positions
-                for (Body body : bodies) {
-                    body.draw(cd);
-                }
+                for (int i = 0; i < NUMBER_OF_BODIES; i++) {
+                    Body drawBody = bodies.poll();
+                    drawBody.draw(cd);
+                    bodies.add(drawBody);
 
+
+                }
                 // show new positions
                 cd.show();
             }
