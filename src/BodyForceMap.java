@@ -55,7 +55,8 @@ public class BodyForceMap {
     public Vector3 get(Body key) {
         int left = 0;
         int right = size - 1;
-
+        int equalIndex = 0;
+        boolean equal = false;
         while (left <= right) {
             int middle = left + ((right - left) / 2);
 
@@ -71,8 +72,20 @@ public class BodyForceMap {
             else if (this.key_arr[middle].mass() < key.mass()) {
                 right = middle - 1;
             } else {
+                //save index of first! equal mass for further iteration if needed
+                if(this.key_arr[middle].mass() == key.mass() && !equal){
+                    equalIndex = middle;
+                    equal=true;
+                }
                 //define new left-border
                 left = middle + 1;
+            }
+        }
+
+        //iterate to the other (left) side of the same mass-keys
+        for (int i = equalIndex-1; i >0; i--) {
+            if (this.key_arr[i] == key) {
+                return value_arr[i];
             }
         }
         return null;
