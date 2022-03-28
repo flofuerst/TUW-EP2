@@ -60,6 +60,13 @@ public class Simulation {
             bodies.add(new Body(Math.abs(random.nextGaussian()) * OVERALL_SYSTEM_MASS / NUMBER_OF_BODIES, // kg
                     new Vector3(0.2 * random.nextGaussian() * AU, 0.2 * random.nextGaussian() * AU, 0.2 * random.nextGaussian() * AU),
                     new Vector3(0 + random.nextGaussian() * 5e3, 0 + random.nextGaussian() * 5e3, 0 + random.nextGaussian() * 5e3)));
+
+        }
+
+        for (int i = 0; i < bodies.size(); i++) {
+            Body check = bodies.poll();
+            bodies.add(check);
+            System.out.println("Die minimale Distanz ist: " + check.getMinimalDistance(bodies));
         }
         /* Zusatzaufgabe:
         bodies.add(new Body(1.989e30, new Vector3(0, 0, 0), new Vector3(0, 0, 0)));

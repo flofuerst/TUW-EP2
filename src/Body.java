@@ -26,6 +26,25 @@ public class Body {
         return this.massCenter.distanceTo(b.massCenter);
     }
 
+    public double getMinimalDistance(BodyQueue bodies) {
+        double minDistance = -1;
+
+        for (int i = 0; i < bodies.size(); i++) {
+            Body compare = bodies.poll();
+            if (this != compare) {
+                if (minDistance  == -1) {
+                    minDistance = this.distanceTo(compare);
+                } else if (this.distanceTo(compare) < minDistance) {
+                    minDistance = this.distanceTo(compare);
+                }
+            }
+
+            bodies.add(compare);
+        }
+
+        return minDistance;
+    }
+
     // Returns a vector representing the gravitational force exerted by 'b' on this body.
     // The gravitational Force F is calculated by F = G*(m1*m2)/(r*r), with m1 and m2 being the
     // masses of the objects interacting, r being the distance between the centers of the masses
