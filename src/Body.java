@@ -32,7 +32,7 @@ public class Body {
         for (int i = 0; i < bodies.size(); i++) {
             Body compare = bodies.poll();
             if (this != compare) {
-                if (minDistance  == -1) {
+                if (minDistance  < 0) {
                     minDistance = this.distanceTo(compare);
                 } else if (this.distanceTo(compare) < minDistance) {
                     minDistance = this.distanceTo(compare);
