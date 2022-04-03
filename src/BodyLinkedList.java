@@ -241,7 +241,6 @@ public class BodyLinkedList {
                 else {
                     observedBody.getPrevious().setNext(observedBody.getNext());
                 }
-                observedBody.getNext().setPrevious(observedBody.getPrevious());
             }
             //set next observedBody as 'new' observedBody
             observedBody = observedBody.getNext();
