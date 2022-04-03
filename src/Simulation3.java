@@ -56,14 +56,14 @@ public class Simulation3 {
             Body checkColliding;
 
             //get each body from bodies and merge with colliding bodies and save to new list
-            while((checkColliding = bodies.pollFirst())!=null){
+            while ((checkColliding = bodies.pollFirst()) != null) {
 
                 //save colliding bodies to new list
                 BodyLinkedList mergedList = bodies.removeCollidingWith(checkColliding);
                 Body bodyToMerge;
 
                 //merge all colliding bodies from list with according body
-                while((bodyToMerge = mergedList.pollFirst())!=null){
+                while ((bodyToMerge = mergedList.pollFirst()) != null) {
                     checkColliding = checkColliding.merge(bodyToMerge);
                 }
                 //add merged body to new list
@@ -78,6 +78,8 @@ public class Simulation3 {
             //poll body from chosenBodylist and check if it is not null
             while ((chosenBody = chosenBodyList.pollFirst()) != null) {
                 //create new Vector3 where forces are added to
+                //NOTE: constantly call of forceOnBody was very inefficient before!
+
                 Vector3 force = new Vector3();
 
                 //create new list
@@ -96,7 +98,9 @@ public class Simulation3 {
             }
             //forceOnBody map now holds all forces exterted on their bodies
 
+
             //for each body: move it according to the total force exerted on it.
+            //reused 'chosenBodyList' and 'chosenBody' for more clarity in code
             chosenBodyList = new BodyLinkedList(bodies);
             while ((chosenBody = chosenBodyList.pollFirst()) != null) {
                 chosenBody.move(forceOnBody.get(chosenBody));
