@@ -80,6 +80,8 @@ public class Aufgabe3Test {
         testValue(bfm.get(earth).distanceTo(new Vector3(0, 0, 0)), 0);
         testValue(bfm.get(mercury).distanceTo(mercury.gravitationalForce(sun)), 0);
 
+        //System.out.println(bfm.toString());
+
     }
 
     public static void testComparison(Object first, Object second, boolean expected) {
