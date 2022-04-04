@@ -94,7 +94,7 @@ class MyTreeNode {
 // A map that associates a Body with a Vector3 (typically this is the force exerted on the body).
 // The number of key-value pairs is not limited.
 public class BodyForceTreeMap {
-    //could also had been done without 'implementation' in MyTreeNote, but doesn't make a difference
+    //could also had been done without 'implementation' in MyTreeNode, but doesn't make a difference
     private MyTreeNode root;
 
     // Adds a new key-value association to this map. If the key already exists in this map,
