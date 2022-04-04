@@ -1,4 +1,5 @@
 //represents tree node, which has a left and a right child
+//could be written in new class file
 class MyTreeNode {
     private Vector3 value;
     private Body key;
@@ -6,22 +7,6 @@ class MyTreeNode {
 
     public MyTreeNode(Body k, Vector3 v) {
         this.key = k;
-        this.value = v;
-    }
-
-    public Body getKey() {
-        return key;
-    }
-
-    public Vector3 getValue() {
-        return value;
-    }
-
-    public void setKey(Body k) {
-        this.key = k;
-    }
-
-    public void setValue(Vector3 v) {
         this.value = v;
     }
 
@@ -109,7 +94,7 @@ class MyTreeNode {
 // A map that associates a Body with a Vector3 (typically this is the force exerted on the body).
 // The number of key-value pairs is not limited.
 public class BodyForceTreeMap {
-
+    //could also had been done without 'implementation' in MyTreeNote, but doesn't make a difference
     private MyTreeNode root;
 
     // Adds a new key-value association to this map. If the key already exists in this map,
