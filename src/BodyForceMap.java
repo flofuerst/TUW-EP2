@@ -49,6 +49,14 @@ public class BodyForceMap {
         return null;
     }
 
+    public void clearBelow(double threshold) {
+
+        for (int i = key_arr.length - 1; i >= 0 && key_arr[i].mass() < threshold; i--) {
+            key_arr[i] = null;
+            value_arr[i] = null;
+        }
+    }
+
     // Returns the value associated with the specified key, i.e. the returns the force vector
     // associated with the specified body. Returns 'null' if the key is not contained in this map.
     // Precondition: key != null.
