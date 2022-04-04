@@ -54,6 +54,7 @@ public class BodyForceMap {
         for (int i = key_arr.length - 1; i >= 0 && key_arr[i].mass() < threshold; i--) {
             key_arr[i] = null;
             value_arr[i] = null;
+            size--;
         }
     }
 
