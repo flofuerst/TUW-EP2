@@ -101,6 +101,10 @@ public class BodyLinkedList {
         }
     }
     public void removeSubList(int fromIndex, int toIndex){
+        if (fromIndex == 0 && toIndex >= size()) {
+            head = null;
+        }
+
         if (head != null) {
             MyListNode result = head.removeSubList(fromIndex, toIndex, head);
 
