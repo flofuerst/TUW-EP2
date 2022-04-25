@@ -33,7 +33,7 @@ class MyListNode {
         this.previous = p;
     }
 
-    public MyListNode removeSublist(int fromIndex, int toIndex, MyListNode current){
+    public MyListNode removeSubList(int fromIndex, int toIndex, MyListNode current){
         MyListNode first = null, last = null;
 
         int index = 0;
@@ -99,9 +99,9 @@ public class BodyLinkedList {
             head.getNext().setPrevious(head);
         }
     }
-    public void removeSublist(int fromIndex, int toIndex){
+    public void removeSubList(int fromIndex, int toIndex){
         if (head != null) {
-            MyListNode result = head.removeSublist(fromIndex, toIndex, head);
+            MyListNode result = head.removeSubList(fromIndex, toIndex, head);
 
             if (result != null) {
                 head = result;
