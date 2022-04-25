@@ -32,6 +32,32 @@ class MyListNode {
     public void setPrevious(MyListNode p) {
         this.previous = p;
     }
+
+    public MyListNode removeSublist(int fromIndex, int toIndex, MyListNode current){
+        MyListNode first = null, last = null;
+
+        int index = 0;
+
+        while (current.next != null) {
+            if (index == fromIndex) {
+                first = current;
+            }
+            else if (index == toIndex) {
+                last = current;
+                if (first.previous != null) {
+                    last.previous = first.previous;
+                    first.previous.next = last;
+                    return null;
+                } else {
+                    return last;
+                }
+            }
+            index++;
+            current = current.next;
+        }
+
+        return null;
+    }
 }
 
 
@@ -61,6 +87,8 @@ public class BodyLinkedList {
         }
     }
 
+
+
     // Inserts the specified element 'body' at the beginning of this list.
     public void addFirst(Body body) {
         //set current head as next element and save body as new head of list
@@ -71,7 +99,15 @@ public class BodyLinkedList {
             head.getNext().setPrevious(head);
         }
     }
+    public void removeSublist(int fromIndex, int toIndex){
+        if (head != null) {
+            MyListNode result = head.removeSublist(fromIndex, toIndex, head);
 
+            if (result != null) {
+                head = result;
+            }
+        }
+    }
     public MyListNode getLastElement() {
         MyListNode lastElement = head;
 

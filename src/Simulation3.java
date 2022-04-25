@@ -30,8 +30,6 @@ public class Simulation3 {
     // all quantities are based on units of kilogram respectively second and meter.
 
     // The main simulation method using instances of other classes.
-
-
     public static void main(String[] args) {
         // simulation
         CodeDraw cd = new CodeDraw();

@@ -1,6 +1,7 @@
 import codedraw.CodeDraw;
 
 import java.awt.*;
+import java.util.HashMap;
 import java.util.Random;
 
 /*
@@ -53,7 +54,8 @@ public class Simulation {
 //        Body[] bodies = new Body[NUMBER_OF_BODIES];
         BodyQueue bodies = new BodyQueue(NUMBER_OF_BODIES);
 //        Vector3[] forceOnBody = new Vector3[bodies.length];
-        BodyForceMap forceOnBody = new BodyForceMap(NUMBER_OF_BODIES);
+//        BodyForceMap forceOnBody = new BodyForceMap(NUMBER_OF_BODIES);
+        HashMap<Body,Vector3> forceOnBody = new HashMap<Body, Vector3>();
 
         Random random = new Random(2022);
         for (int i = 0; i < NUMBER_OF_BODIES; i++) {
