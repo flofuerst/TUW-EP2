@@ -38,7 +38,7 @@ class MyListNode {
 
         int index = 0;
 
-        while (current.next != null) {
+        while (current != null) {
             if (index == fromIndex) {
                 first = current;
             }
@@ -49,6 +49,7 @@ class MyListNode {
                     first.previous.next = last;
                     return null;
                 } else {
+                    last.previous = null;
                     return last;
                 }
             }
