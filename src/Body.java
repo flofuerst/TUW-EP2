@@ -16,8 +16,17 @@ public class Body {
         this.currentMovement = initCurrentMovement;
     }
 
-    public double mass(){
-        return this.mass;
+    public double mass() {
+        return mass;
+    }
+
+    public Vector3 massCenter() {
+        return massCenter;
+    }
+
+    //returns true if this body collides with the Body b
+    public boolean collidesWith(Body b) {
+        return (this.distanceTo(b) < this.radius() + b.radius());
     }
 
     // Returns the distance between the mass centers of this body and the specified body 'b'.
@@ -32,7 +41,7 @@ public class Body {
         for (int i = 0; i < bodies.size(); i++) {
             Body compare = bodies.poll();
             if (this != compare) {
-                if (minDistance  < 0) {
+                if (minDistance < 0) {
                     minDistance = this.distanceTo(compare);
                 } else if (this.distanceTo(compare) < minDistance) {
                     minDistance = this.distanceTo(compare);
