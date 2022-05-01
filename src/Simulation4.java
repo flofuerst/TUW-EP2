@@ -46,8 +46,34 @@ public class Simulation4 {
         NamedBodyForcePair hygiea = new NamedBodyForcePair("Hygiea",8.32E19, new Vector3(-3.983943433707043E11,2.325833000024021E11,-2.233667695713672E10), new Vector3(-6931.864585548552,-15686.8108598699,-690.5791992347208));
         NamedBodyForcePair ceres = new NamedBodyForcePair("Ceres",9.394E20, new Vector3(3.781372641419032E11,1.96718960466285E11,-6.366459168068592E10), new Vector3(-8555.324226752316,14718.33755980907,2040.230135060142));
 
-        //TODO: implementation of this method according to 'Aufgabenblatt4.md'.
+        CosmicSystem earthSystem = new HierarchicalSystem(earth, moon);
+        CosmicSystem marsSystem = new HierarchicalSystem(mars, deimos, phobos);
+        CosmicSystem solarSystem = new HierarchicalSystem(sun, mercury, venus, earthSystem,
+                marsSystem, vesta, pallas, hygiea, ceres);
 
 
+        double seconds = 0;
+
+        // simulation loop
+        while (true) {
+            seconds++; // each iteration computes the movement of the celestial bodies within one second.
+
+            //compute the force that this solarSystem exerts on itself
+            solarSystem.addForceTo(solarSystem);
+
+            //move all planets in this solarSystem according to the total force exerted on it's planets
+            solarSystem.update();
+
+            if (seconds % (3600) == 0) {
+                //clear old positions
+                cd.clear(Color.BLACK);
+
+                //draw solarSystem
+                solarSystem.draw(cd);
+
+                //show new positions
+                cd.show();
+            }
+        }
     }
 }

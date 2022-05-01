@@ -1,5 +1,7 @@
 import codedraw.CodeDraw;
 
+import java.awt.*;
+
 // A body with a name and an associated force. The leaf node of
 // a hierarchical cosmic system. This class implements 'CosmicSystem'.
 //
@@ -83,6 +85,13 @@ public class NamedBodyForcePair implements CosmicSystem {
         force = new Vector3();
     }
 
+    //draws the object into the canvas 'cd'
+    //Precondition: cd != null
     public void draw(CodeDraw cd) {
+        //draw planet
+        b.draw(cd);
+
+        //draw name of planet above it
+        b.massCenter().drawName(cd, name);
     }
 }

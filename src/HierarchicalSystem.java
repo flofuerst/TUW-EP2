@@ -125,7 +125,13 @@ public class HierarchicalSystem implements CosmicSystem {
         }
     }
 
+    //draws the objects into the canvas 'cd'
+    //Precondition: cd != null
     public void draw(CodeDraw cd) {
+        central.draw(cd);
 
+        for (int i = 0; i < planetsInOrbit.length; i++) {
+            planetsInOrbit[i].draw(cd);
+        }
     }
 }
