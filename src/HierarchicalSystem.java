@@ -5,9 +5,9 @@ import codedraw.CodeDraw;
 // This class implements 'CosmicSystem'.
 //
 public class HierarchicalSystem implements CosmicSystem {
-    String name;
-    NamedBodyForcePair central;
-    CosmicSystem[] planetsInOrbit;
+    private String name;
+    private NamedBodyForcePair central;
+    private CosmicSystem[] planetsInOrbit;
 
     // Initializes this system with a name and a central body.
     public HierarchicalSystem(NamedBodyForcePair central, CosmicSystem... inOrbit) {

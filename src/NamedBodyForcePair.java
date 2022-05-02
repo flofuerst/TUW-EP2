@@ -6,9 +6,9 @@ import java.awt.*;
 // a hierarchical cosmic system. This class implements 'CosmicSystem'.
 //
 public class NamedBodyForcePair implements CosmicSystem {
-    String name;
-    Body b;
-    Vector3 force;
+    private String name;
+    private Body b;
+    private Vector3 force;
 
 
     // return massCenter/position of this bdy
