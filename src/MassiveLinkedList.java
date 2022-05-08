@@ -69,7 +69,7 @@ class MyMassiveListNode {
     }
 }
 
-public class MassiveLinkedList {
+public class MassiveLinkedList{
 
     private MyMassiveListNode head;
     private MyMassiveListNode tail;

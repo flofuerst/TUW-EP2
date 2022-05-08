@@ -18,6 +18,16 @@ public class NamedBody implements Massive {
 
     }
 
+    //returns the mass of b
+    public double mass() {
+        return b.mass();
+    }
+
+    //returns the massCenter of b
+    public Vector3 massCenter() {
+        return b.massCenter();
+    }
+
     // Compares `this` with the specified object. Returns `true` if the specified `o` is not
     // `null` and is of type `NamedBody` and both `this` and `o` have equal names.
     // Otherwise `false` is returned.
