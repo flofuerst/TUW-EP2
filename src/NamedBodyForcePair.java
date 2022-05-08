@@ -32,7 +32,6 @@ public class NamedBodyForcePair implements CosmicSystem {
 
     // Returns a readable representation of this system/body.
     public String toString() {
-
         return name;
     }
 

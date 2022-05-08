@@ -1,19 +1,20 @@
-public class NamedBody /* TODO: add clause(s) */
-{
+import codedraw.CodeDraw;
 
-    // TODO: add missing parts of this class.
+public class NamedBody implements Massive {
+    String name;
+    Body b;
+
 
     // Initializes this with name, mass, current position and movement. The associated force
     // is initialized with a zero vector.
     public NamedBody(String name, double mass, Vector3 massCenter, Vector3 currentMovement) {
-        // TODO: implement constructor.
-
+        this.name = name;
+        b = new Body(mass, massCenter, currentMovement);
     }
 
     // Returns the name of the body.
     public String getName() {
-        // TODO: implement method.
-        return "";
+        return name;
 
     }
 
@@ -21,22 +22,25 @@ public class NamedBody /* TODO: add clause(s) */
     // `null` and is of type `NamedBody` and both `this` and `o` have equal names.
     // Otherwise `false` is returned.
     public boolean equals(Object o) {
-        //TODO: implement method.
-        return false;
+        return o != null && o instanceof NamedBody && this.name.equals(((NamedBody) o).name);
 
     }
 
     // Returns the hashCode of `this`.
     public int hashCode() {
-        //TODO: implement method.
-        return 0;
-
+        return this.name.hashCode();
     }
 
     // Returns a readable representation including the name of this body.
     public String toString() {
-        //TODO: implement method.
-        return "";
+        return name + " [" + hashCode() + "] = " + b.toString();
+    }
 
+    public void draw(CodeDraw cd) {
+        b.draw(cd);
+    }
+
+    public void move(Vector3 force) {
+        b.move(force);
     }
 }
