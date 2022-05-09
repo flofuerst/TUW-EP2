@@ -85,6 +85,7 @@ public class Aufgabe4Test {
         testValue(solarSystem.numberOfBodies(), 12);
 
         System.out.println("Test2:");
+        solarSystem.makeCentralBodies();
         System.out.println(solarSystem.toString());
         testValue(solarSystem.toString().contains("Mars"), true);
         testValue(solarSystem.toString().contains("Deimos"), true);
@@ -162,6 +163,7 @@ public class Aufgabe4Test {
         HierarchicalSystem hs = new HierarchicalSystem(sun2, mercury2, venus2,
                 new HierarchicalSystem(earth2, moon2), new HierarchicalSystem(mars2, deimos2,
                 phobos2), vesta2, pallas2, hygiea2, ceres2);
+
 
         for (int seconds = 0; seconds < 50000; seconds++) {
             hs.addForceTo(hs);

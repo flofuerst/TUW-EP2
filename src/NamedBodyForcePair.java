@@ -58,6 +58,10 @@ public class NamedBodyForcePair implements CosmicSystem {
         }
     }
 
+    public void makeCentralBodies(){
+
+    }
+
     // Adds the force that this system exerts on each of the bodies of 'cs' to the bodies in 'cs'.
     // For exact computations this means that for each body of 'this' its force on each body of
     // 'cs' is added to this body of 'cs'.

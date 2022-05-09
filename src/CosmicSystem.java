@@ -16,6 +16,8 @@ public interface CosmicSystem extends Drawable {
     // Returns the overall number of bodies contained in this system.
     int numberOfBodies();
 
+    void makeCentralBodies();
+
     // Returns the distance between the mass centers of 'this' and the specified system.
     //Precondition: cs != null
     double distanceTo(CosmicSystem cs);

@@ -116,6 +116,20 @@ public class HierarchicalSystem implements CosmicSystem {
         }
         return list;
     }
+
+    public void makeCentralBodies(){
+        name = "Central "+ central.getName();
+        for (int i = 0; i < planetsInOrbit.length; i++) {
+            if(planetsInOrbit.length>0){
+                planetsInOrbit[i].makeCentralBodies();
+            }
+            else{
+                planetsInOrbit[i].toString();
+            }
+
+        }
+    }
+
     // Moves each of the bodies of 'this' according to the previously accumulated forces and
     // resets all forces to zero.
     public void update() {
