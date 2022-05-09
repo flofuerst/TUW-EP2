@@ -40,6 +40,10 @@ public class NamedBodyForcePair implements CosmicSystem {
         return name;
     }
 
+    public void setName(){
+        this.name = "Central "+ name;
+    }
+
     public int numberOfBodies() {
         return 1;
     }

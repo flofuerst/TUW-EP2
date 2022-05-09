@@ -120,12 +120,7 @@ public class HierarchicalSystem implements CosmicSystem {
     public void makeCentralBodies(){
         name = "Central "+ central.getName();
         for (int i = 0; i < planetsInOrbit.length; i++) {
-            if(planetsInOrbit.length>0){
-                planetsInOrbit[i].makeCentralBodies();
-            }
-            else{
-                planetsInOrbit[i].toString();
-            }
+            planetsInOrbit[i].makeCentralBodies();
 
         }
     }
