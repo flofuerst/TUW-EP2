@@ -5,7 +5,7 @@ import java.awt.*;
 // A body with a name and an associated force. The leaf node of
 // a hierarchical cosmic system. This class implements 'CosmicSystem'.
 //
-public class NamedBodyForcePair implements CosmicSystem {
+public class NamedBodyForcePair implements CosmicSystem, Massive {
     private String name;
     private Body b;
     private Vector3 force;
@@ -14,6 +14,11 @@ public class NamedBodyForcePair implements CosmicSystem {
     // return massCenter/position of this bdy
     public Vector3 getMassCenter() {
         return b.massCenter();
+    }
+
+    @Override
+    public void move(Vector3 force) {
+        b.move(force);
     }
 
     // Returns the mass of this body.

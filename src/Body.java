@@ -16,7 +16,6 @@ public class Body implements Massive{
         this.currentMovement = initCurrentMovement;
     }
 
-
     public double mass() {
         return mass;
     }

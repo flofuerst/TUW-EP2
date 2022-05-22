@@ -61,8 +61,84 @@ public class Simulation6 {
                     new Vector3(0 + random.nextGaussian() * 5e3, 0 + random.nextGaussian() * 5e3, 0 + random.nextGaussian() * 5e3));
         }
 
-        //TODO: implementation of this method according to 'Aufgabenblatt6.md'.
-        //  Add both, NamedBody- and Body-objects, to your simulation.
+        //create MassiveLinkedList
+        MassiveLinkedList list = new MassiveLinkedList();
+
+        //create MassiveForceHashMap
+        MassiveForceTreeMap map = new MassiveForceTreeMap();
+
+        //add every body to list
+        for(Body b : bodies){
+            list.addLast(b);
+        }
+
+        //add massives to list
+        list.addLast(sun);
+        list.addLast(earth);
+        list.addLast(moon);
+//        list.addLast(mars);
+//        list.addLast(deimos);
+//        list.addLast(phobos);
+//        list.addLast(mercury);
+//        list.addLast(venus);
+//        list.addLast(vesta);
+//        list.addLast(pallas);/*
+//        list.addLast(hygiea);
+//        list.addLast(ceres);*/
+
+        double seconds = 0;
+
+        // simulation loop
+        while (true) {
+            seconds++; // each iteration computes the movement of the celestial bodies within one second.
+
+
+            MassiveLinkedList chosenList = new MassiveLinkedList(list);
+            Massive chosenMassive;
+
+            //poll body from list and check if it is not null
+            while ((chosenMassive = chosenList.pollFirst()) != null) {
+                //create new Vector3 where forces are added to
+
+                Vector3 force = new Vector3();
+
+                //create new list
+                MassiveLinkedList otherMassiveList = new MassiveLinkedList(list);
+                Massive otherMassive;
+
+                //poll elements from list
+                while ((otherMassive = otherMassiveList.pollFirst()) != null) {
+                    if (chosenMassive != otherMassive) {
+                        //add forces from the bodies to force
+                        force = force.plus(chosenMassive.gravitationalForce(otherMassive));
+                    }
+                }
+                //put calculated force value to according key
+                map.put(chosenMassive,force);
+            }
+            //forceMap now holds all body-force-pairs
+
+
+            //for each body in map: move it according to the total force exerted on it.
+            chosenList = map.getKeys().toList();
+            while ((chosenMassive = chosenList.pollFirst()) != null) {
+                chosenMassive.move(map.get(chosenMassive));
+            }
+
+            // show all movements in the canvas only every hour (to speed up the simulation)
+            if (seconds % (3600) == 0) {
+                // clear old positions (exclude the following line if you want to draw orbits).
+                cd.clear(Color.BLACK);
+
+                // draw new positions
+                chosenList = map.getKeys().toList();
+                while ((chosenMassive = chosenList.pollFirst()) != null) {
+                    chosenMassive.draw(cd);
+                }
+                // show new positions
+                cd.show();
+            }
+        }
 
     }
 }

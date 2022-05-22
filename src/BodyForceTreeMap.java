@@ -1,3 +1,5 @@
+import codedraw.CodeDraw;
+
 //represents tree node, which has a left and a right child
 //could be written in new class file
 class MyTreeNode {
